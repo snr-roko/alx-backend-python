@@ -27,3 +27,14 @@ __1-main.py__ is used to implement the script
 A generator functions for retrieving data in batches from the database user_data table and use another function to filter for ages more than 25.
 
 __2-main.py__ is used to implement the script
+
+### 2-lazy_paginate.py structure
+A generator function lazypaginate(pagesize) that implements the paginate_users(page_size, offset) that will only fetch the next page when needed at an offset of 0.
+
+__3-main.py__ is used to implement the script
+
+### 4-stream_ages.py
+A generator stream_user_ages() that yields user ages one by one.
+Another generator in a different function to calculate the average age without loading the entire dataset into memory
+
+Script should print "Average age of users: average age"

@@ -5,7 +5,7 @@ def connect_db():
         connection = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="####"
+        password="###"
     ) 
         return connection
     except mysql.connector.Error:
