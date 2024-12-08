@@ -5,7 +5,7 @@ def connect_db():
         connection = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="MrRoko@0405"
+        password="######"
     ) 
         return connection
     except mysql.connector.Error:
@@ -22,7 +22,7 @@ def connect_to_prodev():
         connection = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="######",
+        password="MrRoko@0405",
         database="ALX_prodev"
     ) 
         return connection

@@ -22,3 +22,8 @@ __0-main.py__ is used to implement the script
 A generator function is created to retrieve data one by one from the database.
 
 __1-main.py__ is used to implement the script
+
+### 1-batch.py structure
+A generator functions for retrieving data in batches from the database user_data table and use another function to filter for ages more than 25.
+
+__2-main.py__ is used to implement the script
