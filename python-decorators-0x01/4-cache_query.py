@@ -28,6 +28,7 @@ def with_db_connection(func):
 
 query_cache = {}
 
+# A decorator function that caches queries to avoid redundant database requests
 def cache_query(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
