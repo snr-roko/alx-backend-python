@@ -2,6 +2,7 @@ import time
 import sqlite3 
 import functools
 
+
 # A decorator function that opens a database connection, completes function actions and closes connection afterwards
 def with_db_connection(func):
     @functools.wraps(func)
@@ -25,34 +26,29 @@ def with_db_connection(func):
                 print("Database Connection Closed Successfully")
     return wrapper
 
-# A decorator function that retries functions for a number of time when there are errors 
-def retry_on_failure(retries, delay):
-    def decorator(func):
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            for retry in range(retries):
-                try:
-                    result = func(*args, **kwargs)
-                except Exception as e:
-                    print("Query Error Occured: ", e)
-                    if retry == 2:
-                        raise
-                    time.sleep(delay)
-                else:
-                    return result
-                    
-        return wrapper
-    return decorator
+query_cache = {}
+
+def cache_query(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            query = kwargs['query']
+            result = query_cache.setdefault(query, func(*args, **kwargs))
+            return result
+        except Exception as e:
+            print("Query Error Occured: ", e)
+            raise
+    return wrapper
 
 @with_db_connection
-@retry_on_failure(retries=3, delay=1)
-
-def fetch_users_with_retry(conn):
+@cache_query
+def fetch_users_with_cache(conn, query):
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM users")
+    cursor.execute(query)
     return cursor.fetchall()
 
-#### attempt to fetch users with automatic retry on failure
+#### First call will cache the result
+users = fetch_users_with_cache(query="SELECT * FROM users")
 
-users = fetch_users_with_retry()
-print(users)
+#### Second call will use the cached result
+users_again = fetch_users_with_cache(query="SELECT * FROM users")
