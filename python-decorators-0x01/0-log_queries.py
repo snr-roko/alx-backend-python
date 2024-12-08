@@ -1,6 +1,6 @@
 import sqlite3
 import functools
-import time
+from datetime import datetime
 
 #### decorator to log SQL queries
 def log_queries(func):
@@ -15,7 +15,7 @@ def log_queries(func):
             
         try:
             with open('query-loggings.txt', 'a') as file:
-                file.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')}: {args[0]}\n")
+                file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}: {args[0]}\n")
         except Exception as e:
             print("Query Completed, File Appending error")
         else:
