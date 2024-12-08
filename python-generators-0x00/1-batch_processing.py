@@ -33,3 +33,4 @@ def batch_processing(batch_size):
                         'age': user_data[3]
                     }
             )
+    return None
