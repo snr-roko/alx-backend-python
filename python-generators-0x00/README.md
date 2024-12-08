@@ -14,3 +14,11 @@ def create_database(connection):- creates the database ALX_prodev if it does not
 def connect_to_prodev() connects the the ALX_prodev database in MYSQL
 def create_table(connection):- creates a table user_data if it does not exists with the required fields
 def insert_data(connection, data):- inserts data in the database if it does not exist
+
+__0-main.py__ is used to implement the script
+
+### 0-stream_users.py 
+
+A generator function is created to retrieve data one by one from the database.
+
+__1-main.py__ is used to implement the script
