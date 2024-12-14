@@ -8,6 +8,8 @@ utils = __import__("utils")
 class TestAccessNestedMap(TestCase):
     """
     Tests for utils.access_nested_map function
+    @parameterized.expand() decorator used to test multiple inputs
+ 
     """
     @parameterized.expand([
         ({"a": 1}, ("a",), 1),
@@ -17,7 +19,10 @@ class TestAccessNestedMap(TestCase):
     def test_access_nested_map(self, nested_map, path, expected_value):
         """
             A unit test for the utils.access_nested_map function.
-            @parameterized.expand() decorator used to test multiple inputs
+            Purpose
+            -------
+            To check for correct return values
+
             Parameters
             ----------
             nested_map: Mapping
@@ -31,6 +36,28 @@ class TestAccessNestedMap(TestCase):
         result = utils.access_nested_map(nested_map, path)
         self.assertEqual(result, expected_value)
 
-    # def test_access_nested_map_exception(self, name, nested_map, path, expected_value):
-    #     with self.assertRaises(KeyError):
-    #         utils.access_nested_map(nested_map, path)
+    @parameterized.expand([
+        ({}, ('a',), "'a'"),
+        ({"a": 1}, ("a", "b"), "'b'")
+    ])
+    def test_access_nested_map_exception(self, nested_map, path, expected_error_message):
+        """
+            A unit test for the utils.access_nested_map function.
+            Purpose
+            -------
+            To check for exceptions
+
+            Parameters
+            ----------
+            nested_map: Mapping
+                A nested map
+            path: Sequence
+                a sequence of key representing a path to the value
+            expected_error_message:
+                Error message to receive after KeyError exception
+
+        """
+        with self.assertRaises(KeyError) as map_context:
+            utils.access_nested_map(nested_map, path)
+
+        self.assertEqual(str(map_context.exception), expected_error_message)
