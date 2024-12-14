@@ -10,11 +10,11 @@ class TestAccessNestedMap(TestCase):
     Tests for utils.access_nested_map function
     """
     @parameterized.expand([
-        ("test 1", {"a": 1}, ("a",), 1),
-        ("test 2", {"a": {"b": 2}}, ("a",), {"b": 2}),
-        ("test 3", {"a": {"b": 2}}, ("a", "b"), 2)
+        ({"a": 1}, ("a",), 1),
+        ({"a": {"b": 2}}, ("a",), {"b": 2}),
+        ({"a": {"b": 2}}, ("a", "b"), 2)
     ])
-    def test_access_nested_map(self, name, nested_map, path, expected_value):
+    def test_access_nested_map(self, nested_map, path, expected_value):
         """
             A unit test for the utils.access_nested_map function.
             @parameterized.expand() decorator used to test multiple inputs
@@ -31,3 +31,6 @@ class TestAccessNestedMap(TestCase):
         result = utils.access_nested_map(nested_map, path)
         self.assertEqual(result, expected_value)
 
+    # def test_access_nested_map_exception(self, name, nested_map, path, expected_value):
+    #     with self.assertRaises(KeyError):
+    #         utils.access_nested_map(nested_map, path)
