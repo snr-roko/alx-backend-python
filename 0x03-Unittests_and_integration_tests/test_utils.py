@@ -3,8 +3,10 @@
 from unittest import TestCase
 from unittest.mock import patch, Mock
 from parameterized import parameterized
+import unittest
 
 utils = __import__("utils")
+memoize = utils.memoize
 
 class TestAccessNestedMap(TestCase):
     """
@@ -99,13 +101,23 @@ class TestGetJson(TestCase):
         mock_request_get.assert_called_once_with(test_url)
         self.assertEqual(result, test_payload)
 
-class TestMemoize(TestCase):
+class TestMemoize(unittest.TestCase):
+    """
+    Test case to test the memoize decorator
+    """
     def test_memoize(self):
+        """
+            A unit test for the utils.memoize decorator function.
+            Purpose
+            -------
+            To mock a_method and make sure it is called only once since memoization is being implemented through the decorator
+
+        """
         class TestClass:
             def a_method(self):
                 return 42
 
-            @utils.memoize
+            @memoize
             def a_property(self):
                 return self.a_method()
             
