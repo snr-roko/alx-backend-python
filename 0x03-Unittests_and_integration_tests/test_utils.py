@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from unittest import TestCase
+from unittest.mock import patch, Mock
 from parameterized import parameterized
 
 utils = __import__("utils")
@@ -61,3 +62,39 @@ class TestAccessNestedMap(TestCase):
             utils.access_nested_map(nested_map, path)
 
         self.assertEqual(str(map_context.exception), expected_error_message)
+
+
+class TestGetJson(TestCase):
+    """
+    Testcase for testing the utils.get_json function
+    """
+    @parameterized.expand([
+            ("http://example.com", {"payload": True}),
+            ("http://holberton.io", {"payload": False})
+    ])
+    @patch('requests.get')
+    def test_get_json(self, test_url, test_payload, mock_request_get):
+        """
+            A unit test for the utils.get_json function.
+            Purpose
+            -------
+            To mock request.get and make sure it is called as well as return a json object
+
+            Parameters
+            ----------
+            test_url:
+                Url to mock request to
+            test_payload:
+                a json object expected to be returned
+            mock_request_get:
+                mock object from the fake patched request.get
+
+        """
+        new_mock = Mock()
+        new_mock.json.return_value = test_payload
+
+        mock_request_get.return_value = new_mock
+        result = utils.get_json(test_url)
+
+        mock_request_get.assert_called_once_with(test_url)
+        self.assertEqual(result, test_payload)
