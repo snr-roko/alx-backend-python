@@ -37,8 +37,8 @@ class TestAccessNestedMap(TestCase):
         ({}, ('a',), "'a'"),
         ({"a": 1}, ("a", "b"), "'b'")
     ])
-    def test_access_nested_map_exception(self, nested_map, path,
-                                       expected_error_message):
+    def test_access_nested_map_exception(
+        self, nested_map, path, expected_error_message):
         """Test access_nested_map raises correct exceptions.
 
         Parameters
@@ -86,7 +86,7 @@ class TestGetJson(TestCase):
         self.assertEqual(result, test_payload)
 
 
-class TestMemoize(TestCase):
+class TestMemoize(unittest.TestCase):
     """Tests for utils.memoize decorator."""
 
     def test_memoize(self):
