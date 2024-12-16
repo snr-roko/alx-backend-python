@@ -41,3 +41,30 @@ class TestGithubOrgClient(unittest.TestCase):
         mock_get_json.assert_called_once_with(client.GithubOrgClient.ORG_URL.format(org=org))
 
         self.assertEqual(result, test_payload)
+    
+    @parameterized.expand([
+    ('google', {"repos_url": "google"}),
+    ('abc', {"repos_url": "abc"})
+])
+    def test_public_repos_url(self, org, test_payload):
+        """
+        Tests for the property _public_repos_url method of the GithubOrgClient class.
+        Purpose
+        -------
+        To mock org memoized method.
+        To make sure property returns the proper value(str).
+        
+        Arguments
+        ---------
+        org:
+            org_name argument passed into mocked function.
+        test_payload:
+            expected dict return value.
+        """
+        github_org_client_object = client.GithubOrgClient(org)
+
+        with patch.object(client.GithubOrgClient, 'org', return_value=test_payload):
+            result = github_org_client_object._public_repos_url
+
+            self.assertEqual(result, test_payload['repos_url'])
+
