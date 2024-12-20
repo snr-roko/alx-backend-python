@@ -125,3 +125,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# djangorestframework settings
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": ['rest_framework.permissions.isAuthenticated'],
+    "DEFAULT_AUTHENTICATION_CLASSES": ['rest_framework.authentication.SessionAuthentication']
+}
