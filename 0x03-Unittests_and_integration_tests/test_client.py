@@ -68,3 +68,21 @@ class TestGithubOrgClient(TestCase):
 
             self.assertEqual(result, test_payload['repos_url'])
 
+    @parameterized.expand([
+            ('google', {"repos_url": [{"name": "google", "url": "http://www.google.com"},
+                                      {"name": "airbnb", "url": "http://www.airbnb.com"}]},
+                                      ["google", "airbnb"]),
+    ])
+    @patch('client.get_json')
+    def test_public_repos(self, org, payload_one, payload_two, mocked_get):
+        github_org_client_object = client.GithubOrgClient(org)
+        mocked_get.return_value = payload_one
+
+        with patch.object(client.GithubOrgClient, '_public_repos_url', return_value=payload_two):
+            result = github_org_client_object.public_repos()
+
+            self.assertEqual(result, payload_two)
+
+            mocked_get.assert_called_once_with(payload_two)
+        
+
