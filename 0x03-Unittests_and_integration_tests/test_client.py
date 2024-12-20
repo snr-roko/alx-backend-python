@@ -46,9 +46,9 @@ class TestGithubOrgClient(unittest.TestCase):
     ('google', {"repos_url": "google"}),
     ('abc', {"repos_url": "abc"})
 ])
-    def test_public_repos_url(self, org, test_payload):
+    def test__public_repos_url(self, org, test_payload):
         """
-        Tests for the property _public_repos_url method of the GithubOrgClient class.
+        Tests for the _public_repos_url property of the GithubOrgClient class.
         Purpose
         -------
         To mock org memoized method.
