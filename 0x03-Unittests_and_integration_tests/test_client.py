@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-import unittest
+from unittest import TestCase
 from unittest.mock import patch
 from parameterized import parameterized
 
 client = __import__('client')
 
 
-class TestGithubOrgClient(unittest.TestCase):
+class TestGithubOrgClient(TestCase):
     """
     Test case for GithubOrgClient class.
     """
@@ -46,7 +46,7 @@ class TestGithubOrgClient(unittest.TestCase):
     ('google', {"repos_url": "google"}),
     ('abc', {"repos_url": "abc"})
 ])
-    def test__public_repos_url(self, org, test_payload):
+    def test_public_repos_url(self, org, test_payload):
         """
         Tests for the _public_repos_url property of the GithubOrgClient class.
         Purpose
