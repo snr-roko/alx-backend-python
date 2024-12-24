@@ -17,7 +17,7 @@ class ConversationSerializer(serializers.ModelSerializer):
     participants = CustomUserSerializer(many=True, read_only=True)
     messages = MessageSerializer(many=True, read_only=True)
     participant_count = serializers.SerializerMethodField()
-    default_message = serializers.CharField(default="Initiate for endless conversation")
+    default_message = serializers.CharField(default="Initiate for endless conversation", read_only=True)
 
     class Meta:
         model = Conversation
