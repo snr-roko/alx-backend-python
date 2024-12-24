@@ -6,6 +6,7 @@ import uuid
 class CustomUser(AbstractUser):
     """
     CustomUser model extending AbstractUser with additional fields per specification
+    password to be dealt with objects directly
     """
     user_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, db_index=True)
     email = models.EmailField(unique=True, null=False)
