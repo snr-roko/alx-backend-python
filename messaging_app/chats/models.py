@@ -7,9 +7,11 @@ class CustomUser(AbstractUser):
     """
     CustomUser model extending AbstractUser with additional fields per specification
     """
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, db_index=True)
+    user_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, db_index=True)
     email = models.EmailField(unique=True, null=False)
     phone_number = models.CharField(max_length=13, null=True, blank=True)
+    first_name = models.CharField(max_length=150, null= False, blank= False)
+    last_name = models.CharField(max_length=150, null= False, blank= False)
     ROLE_CHOICES = (
         ('guest', 'Guest'),
         ('host', 'Host'),
@@ -32,7 +34,7 @@ class Conversation(models.Model):
     """
     Conversation model for managing chat conversations between users
     """
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, db_index=True)
+    conversation_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, db_index=True)
     participants = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
         related_name='conversations'
@@ -43,7 +45,7 @@ class Message(models.Model):
     """
     Message model for storing individual messages within conversations
     """
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, db_index=True)
+    message_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, db_index=True)
     conversation = models.ForeignKey(
         Conversation,
         on_delete=models.CASCADE,
