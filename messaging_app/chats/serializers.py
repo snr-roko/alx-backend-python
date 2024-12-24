@@ -16,7 +16,17 @@ class MessageSerializer(serializers.ModelSerializer):
 class ConversationSerializer(serializers.ModelSerializer):
     participants = CustomUserSerializer(many=True, read_only=True)
     messages = MessageSerializer(many=True, read_only=True)
+    participant_count = serializers.SerializerMethodField()
+    default_message = serializers.CharField(default="Initiate for endless conversation")
 
     class Meta:
         model = Conversation
         fields = '__all__'
+
+    def get_participant_count(self, obj):
+        return obj.participants.count()
+
+    def validate(self, data):
+        if not data.get('participants'):
+            raise serializers.ValidationError("A conversation must have at least one participant.")
+        return data
