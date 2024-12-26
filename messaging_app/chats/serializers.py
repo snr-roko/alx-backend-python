@@ -26,7 +26,7 @@ class ConversationSerializer(serializers.ModelSerializer):
     def get_participant_count(self, obj):
         return obj.participants.count()
 
-    def validate(self, data):
-        if not data.get('participants'):
+    def validate(self, obj):
+        if not obj.participants.exists():
             raise serializers.ValidationError("A conversation must have at least one participant.")
-        return data
+        return obj
