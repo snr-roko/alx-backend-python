@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Third-party apps
     'rest_framework',
+    'rest_framework_simplejwt',
     # Local installed apps
     'chats.apps.ChatsConfig'
 ]
@@ -134,3 +135,15 @@ REST_FRAMEWORK = {
 
 # Custom User
 AUTH_USER_MODEL = 'chats.CustomUser'
+
+# simple jwt
+from datetime import timedelta
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'SIGNING_KEY': os.getenv('SIGNING_KEY')
+}
