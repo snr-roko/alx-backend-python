@@ -4,8 +4,8 @@ from uuid import uuid4
 
 class Message(models.Model):
     message_id = models.UUIDField(primary_key=True, default=uuid4, db_index=True)
-    sender = models.ForeignKey(User, related_name='messages_sent', on_delete=models.PROTECT)
-    receiver = models.ForeignKey(User, related_name='messages_received', on_delete=models.PROTECT)
+    sender = models.ForeignKey(User, related_name='messages_sent', on_delete=models.CASCADE)
+    receiver = models.ForeignKey(User, related_name='messages_received', on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
     content = models.TextField()
     edited = models.BooleanField(default=False)
@@ -21,5 +21,5 @@ class MessageHistory(models.Model):
     message_id = models.UUIDField(blank=False, null=False)
     content = models.TextField()
     edited_at = models.DateTimeField(auto_now_add=True)
-    edited_by = models.ForeignKey(User, related_name='message_edited', on_delete=models.PROTECT)
+    edited_by = models.ForeignKey(User, related_name='message_edited', on_delete=models.CASCADE)
 
