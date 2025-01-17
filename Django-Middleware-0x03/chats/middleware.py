@@ -1,5 +1,7 @@
 import logging
-from datetime import datetime
+from datetime import datetime, time
+from django.http import HttpResponseForbidden
+from django.utils import timezone
 
 logging.basicConfig(
     filename='requests.log',
@@ -27,3 +29,18 @@ class RequestLoggingMiddleware:
         if hasattr(request, 'user') and request.user.is_authenticated:
             return request.user.email
         return "Anonymous"
+    
+
+class RestrictAccessByTimeMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        lower_bound_time = time(9, 0, 0) 
+        upper_bound_time = time(18, 0, 0)
+        now = timezone.now()
+        time_now = now.time()
+        if time_now < lower_bound_time or time_now > upper_bound_time:
+            return HttpResponseForbidden("Site not accessible")
+        response = self.get_response(request)
+        return response
