@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime, time
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, HttpResponseNotAllowed
 from django.utils import timezone
 
 logging.basicConfig(
@@ -44,3 +44,16 @@ class RestrictAccessByTimeMiddleware:
             return HttpResponseForbidden("Site not accessible")
         response = self.get_response(request)
         return response
+    
+class RolepermissionMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        if hasattr(request, 'user') and request.user.is_authenticated:
+            if request.user.role != 'admin':
+                return HttpResponseForbidden(f"{request.user.get('role')} role not allowed.")
+            else:
+                response = self.get_response(request)
+                return response
+        return HttpResponseForbidden('Authentication needed')
